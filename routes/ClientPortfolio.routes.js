@@ -2,11 +2,11 @@ const express = require("express");
 const ClientPortfolio = require("./../models/ClientPortfolio");
 const cors = require("cors");
 const router = express.Router();
+const whitelist = ["https://ortizjoustin.netlify.app", "http://localhost:1601"];
 
-let whitelist = ["https://ortizjoustin.netlify.app", "http://localhost:1601"];
-let corsOptions = {
+var corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
+    if (whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
@@ -23,12 +23,12 @@ router.post("/", cors(corsOptions), async (req, res) => {
 });
 
 // Read
-router.get("/", cors(corsOptions), async (req, res) => {
+router.get("/", async (req, res) => {
   const clients = await ClientPortfolio.find();
   res.json(clients);
 });
 
-router.get("/:id", cors(corsOptions), async (req, res) => {
+router.get("/:id", async (req, res) => {
   const client = await ClientPortfolio.findById(req.params.id);
   res.json(client);
 });

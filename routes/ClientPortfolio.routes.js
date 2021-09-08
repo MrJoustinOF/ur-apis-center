@@ -6,7 +6,7 @@ const router = express.Router();
 let whitelist = ["https://ortizjoustin.netlify.app", "http://localhost:1601"];
 let corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
@@ -34,7 +34,7 @@ router.get("/:id", cors(corsOptions), async (req, res) => {
 });
 
 // Update
-router.put("/:id", cors(corsOptions), async (req, res) => {
+router.put("/:id", async (req, res) => {
   const { name, email, message, isRead } = req.body;
   const editClient = { name, email, message, isRead };
   await ClientPortfolio.findByIdAndUpdate(req.params.id, editClient);
@@ -42,7 +42,7 @@ router.put("/:id", cors(corsOptions), async (req, res) => {
 });
 
 // Delete
-router.delete("/:id", cors(corsOptions), async (req, res) => {
+router.delete("/:id", async (req, res) => {
   await ClientPortfolio.findByIdAndRemove(req.params.id);
   res.json({ status: "Client deleted" });
 });

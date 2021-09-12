@@ -2,11 +2,30 @@ const express = require("express");
 const ClientPortfolio = require("./../models/ClientPortfolio");
 const cors = require("cors");
 const router = express.Router();
-const whitelist = ["https://ortizjoustin.netlify.app", "http://localhost:1601"];
 
-var corsOptions = {
+// Whitelists
+const postWhitelist = [
+  "https://ortizjoustin.netlify.app",
+  "http://localhost:1601",
+];
+const restWhitelist = [
+  "https://wbdasclientseljous.netlify.app",
+  "http://localhost:4914",
+];
+
+let corsPostOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    if (postWhitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
+
+let corsRestOptions = {
+  origin: function (origin, callback) {
+    if (restWhitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
@@ -15,7 +34,7 @@ var corsOptions = {
 };
 
 // Create
-router.post("/", cors(corsOptions), async (req, res) => {
+router.post("/", cors(corsPostOptions), async (req, res) => {
   const { name, email, message } = req.body;
   const Client = new ClientPortfolio({ name, email, message, isRead: false });
   await Client.save();
@@ -23,18 +42,18 @@ router.post("/", cors(corsOptions), async (req, res) => {
 });
 
 // Read
-router.get("/", async (req, res) => {
+router.get("/", cors(corsRestOptions), async (req, res) => {
   const clients = await ClientPortfolio.find();
   res.json(clients);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", cors(corsRestOptions), async (req, res) => {
   const client = await ClientPortfolio.findById(req.params.id);
   res.json(client);
 });
 
 // Update
-router.put("/:id", async (req, res) => {
+router.put("/:id", cors(corsRestOptions), async (req, res) => {
   const { name, email, message, isRead } = req.body;
   const editClient = { name, email, message, isRead };
   await ClientPortfolio.findByIdAndUpdate(req.params.id, editClient);
@@ -42,7 +61,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Delete
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", cors(corsRestOptions), async (req, res) => {
   await ClientPortfolio.findByIdAndRemove(req.params.id);
   res.json({ status: "Client deleted" });
 });

@@ -5,7 +5,7 @@ const router = express.Router();
 
 const whitelist = [
   "https://miltonbailondg.netlify.app",
-  "http://127.0.0.1:7095/",
+  "http://127.0.0.1:7095",
 ];
 const corsOptions = {
   origin: function (origin, callback) {

@@ -1,11 +1,11 @@
 const express = require("express");
-const ClientPortfolio = require("./../models/ClientPortfolio");
+const ClientPortfolio = require("./../../models/portfolio/ClientPortfolio");
 const cors = require("cors");
 const router = express.Router();
 
 // Whitelists
 const postWhitelist = [
-  "https://ortizjoustin.netlify.app",
+  "https://ortizjoustin.vercel.app",
   "http://localhost:1601",
 ];
 const restWhitelist = [

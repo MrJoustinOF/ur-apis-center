@@ -6,7 +6,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^6.0.4"
+    "mongoose": "^6.0.4",
+    "password-hash": "^1.2.2"
   },
   "scripts": {
     "dev": "nodemon ./index.js",

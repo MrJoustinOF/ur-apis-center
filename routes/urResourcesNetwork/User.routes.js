@@ -17,37 +17,34 @@ const corsOptions = {
 };
 
 // Create
-router.post(
-  "/register",
-  /*cors(corsOptions),*/ async (req, res) => {
-    let { name, email, password } = req.body;
-    const userDB = await User.find({ email });
+router.post("/register", cors(corsOptions), async (req, res) => {
+  let { name, email, password } = req.body;
+  const userDB = await User.find({ email });
 
-    if (userDB.length === 0) {
-      password = hash.generate(password);
-      const userToSave = new User({
-        name,
-        bio: "Not bio yet",
-        email,
-        password,
-        avatar: "./img/user.webp",
-      });
-      await userToSave.save();
+  if (userDB.length === 0) {
+    password = hash.generate(password);
+    const userToSave = new User({
+      name,
+      bio: "Not bio yet",
+      email,
+      password,
+      avatar: "/img/user.webp",
+    });
+    await userToSave.save();
 
-      res.json({ msg: "user created" });
-    } else {
-      res.status(403).send({ msg: "user already exists" });
-    }
+    res.json({ msg: "user created" });
+  } else {
+    res.status(403).send({ msg: "user already exists" });
   }
-);
+});
 
 // Read
-router.get("/", async (req, res) => {
+router.get("/", cors(corsOptions), async (req, res) => {
   const users = await User.find();
   res.json(users);
 });
 
-router.get("/login/:email/:pass", async (req, res) => {
+router.get("/login/:email/:pass", cors(corsOptions), async (req, res) => {
   const userRequest = await User.find({ email: req.params.email });
   if (userRequest.length === 0) {
     res.status(404).json({ msg: "user doesn't exist" });
@@ -67,14 +64,14 @@ router.get("/login/:email/:pass", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", cors(corsOptions), async (req, res) => {
   const user = await User.findById(req.params.id);
   const { name, bio, avatar } = user;
   res.json({ name, bio, avatar });
 });
 
 // Update
-router.put("/:id", async (req, res) => {
+router.put("/:id", cors(corsOptions), async (req, res) => {
   const { name, bio, email, password, avatar } = req.body;
   const user = { name, bio, email, password, avatar };
   await User.findByIdAndUpdate(req.params.id, user);
@@ -82,7 +79,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Delete
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", cors(corsOptions), async (req, res) => {
   await User.findByIdAndDelete(req.params.id);
   res.json({ msg: "user deleted" });
 });

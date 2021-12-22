@@ -23,7 +23,7 @@ const corsOptions = {
 };
 
 // Create
-router.Post("/register", cors(corsOptions), createUser);
+router.post("/register", cors(corsOptions), createUser);
 
 // Read
 router.get("/", cors(corsOptions), getAllUsers);

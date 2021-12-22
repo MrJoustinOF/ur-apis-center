@@ -24,7 +24,7 @@ const corsOptions = {
 };
 
 // Create
-router.Post("/", cors(corsOptions), createPost);
+router.post("/", cors(corsOptions), createPost);
 
 // Read
 router.get("/", cors(corsOptions), getAllPosts);

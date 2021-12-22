@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-const { Schema } = mongoose;
+import { Schema, model } from "mongoose";
 
 const ClientPortfolio = new Schema({
   name: { type: String, required: true },
@@ -8,4 +7,4 @@ const ClientPortfolio = new Schema({
   isRead: { type: Boolean, required: true },
 });
 
-module.exports = mongoose.model("ClientPortfolio", ClientPortfolio);
+export default model("ClientPortfolio", ClientPortfolio);

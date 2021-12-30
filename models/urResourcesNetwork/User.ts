@@ -8,4 +8,4 @@ const URRNUser = new Schema({
   avatar: { type: String, required: true },
 });
 
-export default model("URRNUser", URRNUser);
+export default model("User", URRNUser);

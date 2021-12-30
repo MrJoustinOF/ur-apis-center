@@ -9,7 +9,6 @@ const saveClient = async (req, res) => {
 
 const getAllClients = async (req, res) => {
   const clients = await ClientPortfolio.find();
-  console.log(clients);
   res.json(clients);
 };
 

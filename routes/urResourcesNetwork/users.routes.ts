@@ -1,4 +1,4 @@
-import * as express from "express";
+import { Router } from "express";
 import * as cors from "cors";
 import {
   createUser,
@@ -8,7 +8,7 @@ import {
   updateUser,
   deleteUser,
 } from "./../../controllers/urResourcesNetwork/userController";
-const router = express.Router();
+const router = Router();
 
 // Cors configuration
 const whitelist = ["http://localhost:5876", "https://urrn.vercel.app"];

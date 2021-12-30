@@ -14,8 +14,8 @@ const getAllPosts = async (req, res) => {
 
 const getUserPosts = async (req, res) => {
   const { id } = req.params;
-  const posts = (await URRNPost.find()).filter((post: any) =>
-    post.user.id === id ? true : false
+  const posts = (await URRNPost.find()).filter(
+    (post: any) => post.user.id === id
   );
   res.json(posts);
 };

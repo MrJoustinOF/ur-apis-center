@@ -1,4 +1,4 @@
-import * as express from "express";
+import { Router } from "express";
 import * as cors from "cors";
 import {
   saveClient,
@@ -7,7 +7,7 @@ import {
   updateClient,
   deleteClient,
 } from "./../../controllers/mbPortfolio/clientGabiController";
-const router = express.Router();
+const router = Router();
 
 const whitelist = [
   "https://miltonbailondg.netlify.app",

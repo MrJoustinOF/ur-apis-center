@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 const FatePost = new Schema({
   title: { type: String, required: true },
   desc: { type: String, required: true },
-  image: { type: String, required: true },
+  images: { type: Array, required: true },
   created_at: { type: Date, required: true },
   user: {
     id: { type: String, required: true },

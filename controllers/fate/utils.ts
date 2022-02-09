@@ -45,4 +45,29 @@ const deleteUserData = async ({ id }) => {
   await Answer.deleteMany({ user: id });
 };
 
-export { writeBatchByUser, deleteUserData };
+const deleteCommentAnswers = async (comment_id) => {
+  await Answer.deleteMany({ comment_id });
+};
+
+const deletePostComments = async (post_id) => {
+  const getComments = await Comment.find({ post_id });
+  const commentsIds = getComments.map(({ _id: id }) => id);
+
+  for (const id of commentsIds) {
+    await deleteCommentAnswers(id);
+  }
+
+  await Comment.deleteMany({ post_id });
+};
+
+const deletePostLikes = async (post_id) => {
+  await Like.deleteMany({ post_id });
+};
+
+export {
+  writeBatchByUser,
+  deleteUserData,
+  deleteCommentAnswers,
+  deletePostComments,
+  deletePostLikes,
+};

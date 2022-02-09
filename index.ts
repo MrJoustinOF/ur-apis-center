@@ -1,5 +1,6 @@
 import * as express from "express";
 import * as cors from "cors";
+import * as bodyParser from "body-parser";
 import "./db";
 
 // My portfolio routes
@@ -23,8 +24,11 @@ import FateAnswerRoutes from "./routes/fate/answers.routes";
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(express.json());
+// app.use(express.json());
+app.use(bodyParser.json({ limit: "25mb" }));
 app.use(cors());
+app.use(bodyParser.urlencoded({ limit: "25mb", extended: true }));
+app.use(bodyParser.text({ limit: "25mb" }));
 
 // My portfolio
 app.use("/api/portfolio", clientPortfolioRoutes);

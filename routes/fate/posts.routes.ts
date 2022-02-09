@@ -3,6 +3,8 @@ import * as cors from "cors";
 import {
   getAllPosts,
   createPost,
+  getHomePosts,
+  getUserPosts,
   getOnePost,
   updatePost,
   deletePost,
@@ -16,6 +18,10 @@ router.use(cors(corsOptions));
 router.get("/", getAllPosts);
 
 router.post("/", adminMiddleware, createPost);
+
+router.get("/home", getHomePosts);
+
+router.get("/user/:id", adminMiddleware, getUserPosts);
 
 router.get("/:id", getOnePost);
 

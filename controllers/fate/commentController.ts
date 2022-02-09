@@ -1,4 +1,5 @@
 import Comment from "./../../models/fate/Comment";
+import { deleteCommentAnswers } from "./utils";
 
 const getAllComments = async (req, res) => {
   const comments = await Comment.find();
@@ -11,7 +12,7 @@ const createComment = async (req, res) => {
   const post = new Comment({ post_id, desc, user });
   await post.save();
 
-  res.json({ msg: "comment created" });
+  res.json({ msg: "comment published" });
 };
 
 const getPostComments = async (req, res) => {
@@ -32,6 +33,8 @@ const deleteComment = async (req, res) => {
   const { id } = req.params;
 
   await Comment.findByIdAndDelete(id);
+  await deleteCommentAnswers(id);
+
   res.json({ msg: "comment deleted" });
 };
 

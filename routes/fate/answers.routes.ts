@@ -3,7 +3,7 @@ import * as cors from "cors";
 import {
   getAllAnswers,
   createAnswer,
-  getPostAnswers,
+  getCommentAnswers,
   updateAnswer,
   deleteAnswer,
 } from "./../../controllers/fate/answerController";
@@ -18,7 +18,7 @@ router.get("/", adminMiddleware, getAllAnswers);
 
 router.post("/", authMiddleware, createAnswer);
 
-router.get("/post/:id", getPostAnswers);
+router.get("/comment/:id", getCommentAnswers);
 
 router.put("/:id", authMiddleware, updateAnswer);
 

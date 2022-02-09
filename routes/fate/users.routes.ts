@@ -5,6 +5,7 @@ import {
   signUp,
   signIn,
   setAdmin,
+  setClient,
   updateUser,
   deleteUser,
 } from "./../../controllers/fate/userController";
@@ -22,6 +23,8 @@ router.post("/signup", signUp);
 router.post("/token", signIn);
 
 router.put("/setAdmin/:id", adminMiddleware, setAdmin);
+
+router.put("/setClient/:id", adminMiddleware, setClient);
 
 router.put("/:id", authMiddleware, updateUser);
 

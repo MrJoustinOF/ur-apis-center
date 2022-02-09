@@ -11,7 +11,7 @@ const getAllUsers = async (req, res) => {
 };
 
 const signUp = async (req, res) => {
-  const { name, email } = req.body;
+  const { name, email, birth_date } = req.body;
   const password = req.body.password.toString();
   const avatar =
     "https://firebasestorage.googleapis.com/v0/b/fate-eea84.appspot.com/o/users%2Fuser.webp?alt=media&token=2c882153-bed1-4104-81c1-80dda3857cae";
@@ -25,7 +25,7 @@ const signUp = async (req, res) => {
       password: hash.generate(password),
       avatar,
       role: "client",
-      birth_date: new Date(req.body.birth_date),
+      birth_date: new Date(birth_date),
     });
     await user.save();
 
@@ -88,6 +88,13 @@ const setAdmin = async (req, res) => {
   res.json({ msg: "admin updated" });
 };
 
+const setClient = async (req, res) => {
+  const { id } = req.params;
+
+  await User.findByIdAndUpdate(id, { role: "client" });
+  res.json({ msg: "client updated" });
+};
+
 const updateUser = async (req, res) => {
   const { id } = req.params;
   const { name, avatarData, birth_date } = req.body;
@@ -100,12 +107,12 @@ const updateUser = async (req, res) => {
   } else {
     const ref = storage.ref("/users");
     const uploadAvatar = ref.child(id);
-    await uploadAvatar.putString(avatarData);
+    await uploadAvatar.putString(avatarData, "data_url");
     avatar = await uploadAvatar.getDownloadURL();
   }
 
   const user = { name, password: hash.generate(password), avatar, birth_date };
-  await User.findByIdAndUpdate(id, user);
+  const updateUser: any = await User.findByIdAndUpdate(id, user);
 
   // Write batch to update all the data of other models
   await writeBatchByUser({ id, name, avatar });
@@ -118,6 +125,8 @@ const updateUser = async (req, res) => {
     {
       id,
       ...req.body,
+      email: updateUser.get("email"),
+      role: updateUser.get("role"),
       avatar,
       birth_date: parsedBirthDate,
     },
@@ -137,4 +146,12 @@ const deleteUser = async (req, res) => {
   res.json({ msg: "user deleted" });
 };
 
-export { getAllUsers, signUp, signIn, setAdmin, updateUser, deleteUser };
+export {
+  getAllUsers,
+  signUp,
+  signIn,
+  setAdmin,
+  setClient,
+  updateUser,
+  deleteUser,
+};

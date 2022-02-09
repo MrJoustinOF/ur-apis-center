@@ -30,6 +30,11 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ limit: "25mb", extended: true }));
 app.use(bodyParser.text({ limit: "25mb" }));
 
+// Endpoint to wake up the app because of Heroku
+app.get("/api/wakeup", (req, res) =>
+  res.status(200).json({ msg: "thanks for waking me up!" })
+);
+
 // My portfolio
 app.use("/api/portfolio", clientPortfolioRoutes);
 
